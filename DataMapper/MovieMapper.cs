@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Npgsql;
 
 namespace DataMapper
@@ -44,7 +45,7 @@ namespace DataMapper
                 }
             }
             return null;
-        }
+        } 
         public void Save(Movie movie)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(CONNECTION_STRING))
@@ -68,6 +69,23 @@ namespace DataMapper
             }
             _cache[movie.ID] = movie;
         }
+        public List<int> intList = new List<int>();
+        public  void  AvailableCopies()
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(CONNECTION_STRING))
+            {
+                conn.Open();
+                using (var command = new NpgsqlCommand("SELECT DISTINCT movie_id FROM copies  ORDER BY movie_id ASC", conn))
+                {
+                    NpgsqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        intList.Add(Convert.ToInt32(reader["movie_id"]));
+                    }
+                }
+            }
+        }
+
         public void Delete(Movie movie)
         {
             throw new Exception("Not yet implemented");
