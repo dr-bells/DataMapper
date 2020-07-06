@@ -4,6 +4,6 @@
     {
         T GetByID(int id);
         void Save(T t);
-        void Delete(T t);
+        void Delete(T t);       
     }
 }

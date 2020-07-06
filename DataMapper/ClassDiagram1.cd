@@ -25,7 +25,7 @@
   <Class Name="DataMapper.MovieMapper" BaseTypeListCollapsed="true">
     <Position X="7.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAIAAAAAAAAAAQAwAAAEQAAAAQAAAgAAAAAA=</HashCode>
+      <HashCode>AAAAAIAAAIAAAAAAAAAAQAgAAAEQAAAAQCAAgAAAAAA=</HashCode>
       <FileName>MovieMapper.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -35,6 +35,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataMapper.Clients">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAIAAQAAAAAAAAAA=</HashCode>
+      <FileName>Clients.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="DataMapper.IMapper&lt;T&gt;">

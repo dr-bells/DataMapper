@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Npgsql;
 
 namespace DataMapper
@@ -10,9 +9,8 @@ namespace DataMapper
     {
         private static readonly string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["Rental"].ToString();
         private readonly Dictionary<int, Movie> _cache = new Dictionary<int, Movie>();
-
+        public List<int> availableCopiesList = new List<int>();
         public static MovieMapper Instance { get; } = new MovieMapper();
-        // This is a singleton, so constructor is private
         private MovieMapper() { }
         public Movie GetByID(int id)
         {
@@ -24,7 +22,6 @@ namespace DataMapper
             _cache.Add(movie.ID, movie);
             return movie;
         }
-
         private Movie GetByIDFromDB(int id)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(CONNECTION_STRING))
@@ -51,7 +48,6 @@ namespace DataMapper
             using (NpgsqlConnection conn = new NpgsqlConnection(CONNECTION_STRING))
             {
                 conn.Open();
-                // This is an UPSERT operation - if record doesn't exist in the database it is created, otherwise it is updated
                 using (var command = new NpgsqlCommand("INSERT INTO movies(movie_id, title, year, price) " +
                     "VALUES (@ID, @title, @year, @price) " +
                     "ON CONFLICT (movie_id) DO UPDATE " +
@@ -63,13 +59,10 @@ namespace DataMapper
                     command.Parameters.AddWithValue("@price", movie.Price);
                     command.ExecuteNonQuery();
                 }
-                // We need to save every copy in our list. 
-                // Notice the "?" symbol - Copies might be an empty list, so we need protection from NullReferenceException
                 movie.Copies?.ForEach(obj => CopyMapper.Instance.Save(obj));
             }
             _cache[movie.ID] = movie;
         }
-        public List<int> intList = new List<int>();
         public  void  AvailableCopies()
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(CONNECTION_STRING))
@@ -80,13 +73,12 @@ namespace DataMapper
                     NpgsqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        intList.Add(Convert.ToInt32(reader["movie_id"]));
+                        availableCopiesList.Add(Convert.ToInt32(reader["movie_id"]));
                     }
                 }
             }
         }
-
-        public void Delete(Movie movie)
+        public void Delete(Movie  movie)
         {
             throw new Exception("Not yet implemented");
         }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Npgsql;
 
 namespace DataMapper
@@ -12,9 +9,7 @@ namespace DataMapper
     {
         private static readonly string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["Rental"].ToString();
         public static CopyMapper Instance { get; } = new CopyMapper();
-        // This is a singleton, so constructor is private
         private CopyMapper() { }
-
         public Copy GetByID(int id)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(CONNECTION_STRING))
@@ -34,7 +29,6 @@ namespace DataMapper
             }
             return null;
         }
-
         public List<Copy> GetByMovieId(int movieId)
         {
             List<Copy> list = new List<Copy>();
@@ -75,6 +69,10 @@ namespace DataMapper
         public void Delete(Copy copy)
         {
             throw new Exception("Not yet implemented");
+        }
+        public void Update(Copy t)
+        {
+            throw new NotImplementedException();
         }
     }
 }
